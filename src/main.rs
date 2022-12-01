@@ -4,13 +4,15 @@ use std::{env, time::Instant};
 mod days;
 mod util;
 
+type PartFn = fn(String) -> String;
+
 fn main() {
-    let fns: HashMap<usize, [fn(Vec<String>) -> String; 2]> =
+    let fns: HashMap<usize, [PartFn; 2]> =
         HashMap::from([(1, [days::day1::part1, days::day1::part2])]);
     process_args(fns);
 }
 
-fn process_args(fns: HashMap<usize, [fn(Vec<String>) -> String; 2]>) {
+fn process_args(fns: HashMap<usize, [PartFn; 2]>) {
     let args: Vec<String> = env::args().collect();
     if args.len() == 1 {
         // TODO: info message to provide day and/or part
@@ -22,13 +24,13 @@ fn process_args(fns: HashMap<usize, [fn(Vec<String>) -> String; 2]>) {
     };
     if args.len() < 3 {
         match fns.get(&day) {
-            Some(dfn) => return run_specific(*dfn, day),
+            Some(dfn) => run_specific(*dfn, day),
             None => panic!("Day not implemented!"),
         }
     }
 }
 
-fn run_specific(fns: [fn(Vec<String>) -> String; 2], day: usize) {
+fn run_specific(fns: [PartFn; 2], day: usize) {
     let input = util::get_from_file(day);
     let inputp2 = input.clone();
     let part1_start = Instant::now();

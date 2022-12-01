@@ -1,17 +1,8 @@
 use std::{fs, time::Duration};
 
-pub fn get_from_file(day: usize) -> Vec<String> {
-    get_from_filename(format!("./inputs/day{}.txt", day))
-}
-
-fn get_from_filename(filename: String) -> Vec<String> {
-    let lines: Vec<String> = fs::read_to_string(filename)
-        .unwrap()
-        .split('\n')
-        // .filter(|x: &&str| x.trim() != "")
-        .map(|x| String::from(x.trim()))
-        .collect();
-    lines
+// get_from_file returns an string with whole input file
+pub fn get_from_file(day: usize) -> String {
+    fs::read_to_string(format!("./inputs/day{}.txt", day)).unwrap()
 }
 
 pub fn format_duration(d: Duration) -> String {
