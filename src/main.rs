@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use indexmap::IndexMap;
 use std::{env, time::Instant};
 
 mod days;
@@ -7,17 +7,17 @@ mod util;
 type PartFn = fn(String) -> String;
 
 fn main() {
-    let fns: HashMap<usize, [PartFn; 2]> = HashMap::from([
+    let fns: IndexMap<usize, [PartFn; 2]> = IndexMap::from([
         (1, [days::day1::part1, days::day1::part2]),
         (2, [days::day2::part1, days::day2::part2]),
     ]);
     process_args(fns);
 }
 
-fn process_args(fns: HashMap<usize, [PartFn; 2]>) {
+fn process_args(fns: IndexMap<usize, [PartFn; 2]>) {
     let args: Vec<String> = env::args().collect();
     if args.len() == 1 {
-        // TODO: info message to provide day and/or part
+        fns.iter().for_each(|(day, dfn)| run_specific(*dfn, *day));
         return;
     }
     let day = match args[1].parse::<usize>() {
@@ -33,16 +33,17 @@ fn process_args(fns: HashMap<usize, [PartFn; 2]>) {
 }
 
 fn run_specific(fns: [PartFn; 2], day: usize) {
+    println!("Day: {}", day);
     let input = util::get_from_file(day);
     let inputp2 = input.clone();
     let part1_start = Instant::now();
-    println!("day{}part{}:\t{}", day, 1, fns[0](input));
+    println!("\tPart{}:\t{}", 1, fns[0](input));
     let part1_duration = part1_start.elapsed();
     let part2_start = Instant::now();
-    println!("day{}part{}:\t{}", day, 2, fns[1](inputp2));
+    println!("\tPart{}:\t{}", 2, fns[1](inputp2));
     let part2_duration = part2_start.elapsed();
     println!(
-        "Completed in {}\t(p1:{}, p2:{})",
+        "\tCompleted in {}\t(p1:{}, p2:{})",
         util::format_duration(part1_duration + part2_duration),
         util::format_duration(part1_duration),
         util::format_duration(part2_duration)
