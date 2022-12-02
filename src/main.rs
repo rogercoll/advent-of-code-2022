@@ -7,8 +7,10 @@ mod util;
 type PartFn = fn(String) -> String;
 
 fn main() {
-    let fns: HashMap<usize, [PartFn; 2]> =
-        HashMap::from([(1, [days::day1::part1, days::day1::part2])]);
+    let fns: HashMap<usize, [PartFn; 2]> = HashMap::from([
+        (1, [days::day1::part1, days::day1::part2]),
+        (2, [days::day2::part1, days::day2::part2]),
+    ]);
     process_args(fns);
 }
 
