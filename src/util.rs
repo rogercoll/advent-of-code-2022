@@ -2,7 +2,10 @@ use std::{fs, time::Duration};
 
 // get_from_file returns an string with whole input file
 pub fn get_from_file(day: usize) -> String {
-    fs::read_to_string(format!("./inputs/day{}.txt", day)).unwrap()
+    fs::read_to_string(format!("./inputs/day{}.txt", day))
+        .unwrap()
+        .trim()
+        .to_string()
 }
 
 pub fn format_duration(d: Duration) -> String {

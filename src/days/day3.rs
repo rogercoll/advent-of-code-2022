@@ -1,26 +1,3 @@
-pub fn part1(input: String) -> String {
-    input
-        .split('\n')
-        .map(|ruckstack| {
-            ruckstack
-                .chars()
-                .enumerate()
-                .fold(([0_u8; 57], 0_usize), |mut bitmap, item| {
-                    let mut pos: usize = if item.1.is_uppercase() { 26 } else { 0 };
-                    pos += item.1.to_digit(36).unwrap() as usize - 10;
-                    if bitmap.0[pos] >= 1 && (item.0 >= ruckstack.len() / 2) {
-                        bitmap.1 = pos + 1
-                    } else if item.0 < ruckstack.len() / 2 {
-                        bitmap.0[pos] += 1;
-                    }
-                    bitmap
-                })
-                .1
-        })
-        .sum::<usize>()
-        .to_string()
-}
-
 fn get_bitmap(ruckstack: &str) -> u64 {
     ruckstack
         .chars()
@@ -31,6 +8,17 @@ fn get_bitmap(ruckstack: &str) -> u64 {
             bitmap |= 1 << pos;
             bitmap
         })
+}
+
+pub fn part1(input: String) -> String {
+    input
+        .split('\n')
+        .map(|ruckstack| {
+            let (split1, split2) = ruckstack.split_at(ruckstack.len() / 2);
+            (get_bitmap(split1) & get_bitmap(split2)).trailing_zeros() + 1
+        })
+        .sum::<u32>()
+        .to_string()
 }
 
 pub fn part2(input: String) -> String {
