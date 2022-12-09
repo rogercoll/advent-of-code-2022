@@ -40,14 +40,14 @@ fn process_args(fns: IndexMap<usize, [PartFn; 2]>) {
 }
 
 fn run_specific(fns: [PartFn; 2], day: usize) {
-    println!("Day: {}", day);
+    println!("{} Day: {} {}", "🎄", day, "🎄");
     let input = util::get_from_file(day);
     let inputp2 = input.clone();
     let part1_start = Instant::now();
-    println!("\tPart{}:\t{}", 1, fns[0](input));
+    println!("\t🌟 Part{}:\t{}", 1, fns[0](input));
     let part1_duration = part1_start.elapsed();
     let part2_start = Instant::now();
-    println!("\tPart{}:\t{}", 2, fns[1](inputp2));
+    println!("\t🌟🌟 Part{}:\t{}", 2, fns[1](inputp2));
     let part2_duration = part2_start.elapsed();
     println!(
         "\tCompleted in {}\t(p1:{}, p2:{})",
