@@ -1,25 +1,17 @@
 pub fn part1(input: String) -> String {
     input
         .split('\n')
-        .fold(
-            (0_i32, 1_i32, 0_i32),
-            |(mut cycles, mut x, mut strength), line| {
-                let instructions = line.split(' ').collect::<Vec<&str>>();
-                let (instruction_cycles, value) = match instructions[0] {
-                    "noop" => (1, 0),
-                    "addx" => (2, instructions[1].parse().unwrap()),
-                    _ => panic!("Invalid instruction"),
-                };
-                (0..instruction_cycles).for_each(|_| {
-                    cycles += 1;
-                    if (cycles - 20) % 40 == 0 {
-                        strength += cycles * x;
-                    }
-                });
-                x += value;
-                (cycles, x, strength)
-            },
-        )
+        .fold((0_i16, 1_i16, 0_i16), |(cycles, x, mut strength), line| {
+            let (instruction_cycles, value) = match &line[0..4] {
+                "noop" => (1, 0),
+                "addx" => (2, line[5..].parse::<i16>().unwrap()),
+                _ => panic!("Invalid instruction"),
+            };
+            (1..=instruction_cycles).for_each(|i| {
+                strength += ((cycles + i - 20) % 40 == 0) as i16 * (cycles + i) * x;
+            });
+            (cycles + instruction_cycles, x + value, strength)
+        })
         .2
         .to_string()
 }
@@ -28,10 +20,9 @@ pub fn part2(input: String) -> String {
     let result = input
         .split('\n')
         .fold((1_i16, Vec::new()), |(mut x, mut pixels), line| {
-            let instructions = line.split(' ').collect::<Vec<&str>>();
-            let (instruction_cycles, value) = match instructions[0] {
+            let (instruction_cycles, value) = match &line[0..4] {
                 "noop" => (1, 0),
-                "addx" => (2, instructions[1].parse().unwrap()),
+                "addx" => (2, line[5..].parse::<i16>().unwrap()),
                 _ => panic!("Invalid instruction"),
             };
             (0..instruction_cycles).for_each(|_| {
