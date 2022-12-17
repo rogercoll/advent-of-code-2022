@@ -20,6 +20,8 @@ fn main() {
         (10, [days::day10::part1, days::day10::part2]),
         (11, [days::day11::part1, days::day11::part2]),
         (12, [days::day12::part1, days::day12::part2]),
+        (13, [days::day13::part1, days::day13::part2]),
+        (14, [days::day14::part1, days::day14::part2]),
     ]);
     process_args(fns);
 }

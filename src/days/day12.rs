@@ -37,7 +37,7 @@ fn parse_input(
         .map(|(i, row)| {
             row.chars()
                 .enumerate()
-                .map(|(j, mut cell)| {
+                .map(|(j, cell)| {
                     if starting_point(cell) {
                         start.push((i as isize, j as isize));
                     };
